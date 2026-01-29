@@ -72,61 +72,14 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNsZWV1bXJ
 
 ---
 
-### 5️⃣ JWT_SECRET (Opcional pero recomendado)
-**Nombre**: `JWT_SECRET`  
-**Valor**: (Generar uno nuevo o usar uno existente)
-
-Para generar uno nuevo, ejecuta en terminal:
-```bash
-openssl rand -base64 32
-```
-
-Ejemplo:
-```
-Kp8vR3xN9mQ2wL5yT6uH1jS4bC7fG0aE8dZ3vM2nB5k=
-```
-
----
-
-### 6️⃣ PAYPHONE_TOKEN (Para pagos)
-**Nombre**: `PAYPHONE_TOKEN`  
-**Valor**: 
-```
-T9m46OH8aa2d4P5jbsw23-Y4R2eBEpyfpy0j_IF1SXLcFr48WsGcbzOnZWwj6sqbNAVfhdXKsrcnj9CRcCcQQa0fHYRv-o6HD3qMeZv1Eygzu8J3jr1WkUAiQr1sJF_N_haSWwf-vK1vBS2A9Nj5-XrdxLFI93VDax41qDvvyXqXeIpymMiICMXKQ_YdZaOB-6Hdd1AQRWXO3LU4ABJrO4_lNtCzUOK8AvEF0E6E8gjSo9vUkpmjLsfwEbgbuJg_BLYR6DfPD4anXh3T2C1HzN-YATrwN-QFk8nuPOf9nnZEWuQIXzJJ7kjo7Di_L0_a9hro9Q
-```
-
----
-
-### 7️⃣ PAYPHONE_STORE_ID
-**Nombre**: `PAYPHONE_STORE_ID`  
-**Valor**: 
-```
-2045aab0-cad6-4c59-9b17-3e90bd793b17
-```
-
----
-
-### 8️⃣ GEMINI_API_KEY (Para validación con IA)
-**Nombre**: `GEMINI_API_KEY`  
-**Valor**: 
-```
-AIzaSyD4E614NZ8IF61r37ELU2Hbc203amwQnxQ
-```
-
----
-
 ## 📋 Checklist de Verificación
 
-Después de agregar todos los secrets, verifica que tienes estos 8:
+Después de agregar todos los secrets, verifica que tienes estos 4:
 
 - [ ] `EC2_SSH_KEY` - SSH key para conectar al servidor
 - [ ] `SUPABASE_URL` - URL de Supabase
 - [ ] `SUPABASE_ANON_KEY` - Clave anónima de Supabase
 - [ ] `SUPABASE_SERVICE_ROLE_KEY` - Clave de servicio de Supabase
-- [ ] `JWT_SECRET` - Secret para tokens JWT
-- [ ] `PAYPHONE_TOKEN` - Token de Payphone
-- [ ] `PAYPHONE_STORE_ID` - ID de tienda Payphone
-- [ ] `GEMINI_API_KEY` - API key de Google Gemini
 
 ---
 
@@ -141,7 +94,7 @@ Una vez configurados todos los secrets:
 O simplemente:
 ```bash
 git add .
-git commit -m "feat: welcome page and CI/CD setup"
+git commit -m "chore: simplificar configuración de secrets"
 git push origin main
 ```
 
@@ -162,10 +115,6 @@ gh secret list --repo cmaldonado98/wedding-ed-game
 Deberías ver:
 ```
 EC2_SSH_KEY               Updated YYYY-MM-DD
-GEMINI_API_KEY            Updated YYYY-MM-DD
-JWT_SECRET                Updated YYYY-MM-DD
-PAYPHONE_STORE_ID         Updated YYYY-MM-DD
-PAYPHONE_TOKEN            Updated YYYY-MM-DD
 SUPABASE_ANON_KEY         Updated YYYY-MM-DD
 SUPABASE_SERVICE_ROLE_KEY Updated YYYY-MM-DD
 SUPABASE_URL              Updated YYYY-MM-DD
