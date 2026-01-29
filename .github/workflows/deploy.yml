@@ -14,38 +14,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.EC2_SSH_KEY }}
+          known_hosts: 'placeholder'
+          
+      - name: Add EC2 to known hosts
         run: |
-          mkdir -p ~/.ssh
-          # Escribir la clave con printf para preservar formato exacto
-          printf '%s\n' "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
-          
-          # Debug: Verificar contenido
-          echo "🔍 Verificando clave SSH..."
-          if [ ! -s ~/.ssh/id_rsa ]; then
-            echo "❌ ERROR: EC2_SSH_KEY secret está vacío"
-            exit 1
-          fi
-          
-          # Verificar que empieza con BEGIN
-          if ! head -n 1 ~/.ssh/id_rsa | grep -q "BEGIN"; then
-            echo "❌ ERROR: EC2_SSH_KEY no parece ser una clave SSH válida"
-            echo "Primera línea del archivo:"
-            head -n 1 ~/.ssh/id_rsa
-            exit 1
-          fi
-          
-          echo "✅ Clave SSH válida detectada"
-          chmod 600 ~/.ssh/id_rsa
-          
-          # Verificar permisos
-          ls -la ~/.ssh/id_rsa
-          
-          echo "🔍 Agregando host a known_hosts..."
-          ssh-keyscan -H 54.208.89.87 >> ~/.ssh/known_hosts 2>&1 || {
-            echo "⚠️  ssh-keyscan falló, continuando de todas formas..."
-          }
-          
-          echo "✅ SSH configurado correctamente"
+          ssh-keyscan -H 54.208.89.87 >> ~/.ssh/known_hosts
 
       - name: Deploy to EC2
         env:
@@ -53,7 +29,7 @@ jobs:
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@54.208.89.87 << 'EOF'
+          ssh -o StrictHostKeyChecking=no ubuntu@54.208.89.87 << 'EOF'
             cd /home/ubuntu/wedding-game
             
             # Pull latest code
