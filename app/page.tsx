@@ -1,48 +1,52 @@
 export default function HomePage() {
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50">
-      <div className="text-center space-y-8 p-8">
-        <div className="space-y-4">
-          <h1 className="text-6xl font-bold bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
-            🎮 Wedding Game
+    <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-rose-100 via-pink-100 to-purple-100">
+      <div className="text-center space-y-12 p-8 max-w-4xl mx-auto">
+        {/* Encabezado Principal */}
+        <div className="space-y-6">
+          <div className="text-8xl mb-6 animate-bounce">
+            🎊
+          </div>
+          
+          <h1 className="font-['Playfair_Display',serif] text-7xl md:text-8xl font-bold bg-gradient-to-r from-rose-600 via-pink-600 to-purple-600 bg-clip-text text-transparent leading-tight">
+            Bienvenidos
           </h1>
-          <p className="text-2xl text-gray-700">
-            Esteban & Dany
-          </p>
-          <p className="text-gray-500 max-w-md mx-auto">
-            Sistema de gamificación con login OTP, wallet de monedas y tienda virtual
-          </p>
-        </div>
-
-        <div className="grid gap-4 max-w-lg mx-auto">
-          <div className="bg-white rounded-lg shadow-lg p-6 border-2 border-purple-200">
-            <div className="text-4xl mb-2">🔐</div>
-            <h3 className="font-semibold text-lg mb-1">OTP Login</h3>
-            <p className="text-sm text-gray-600">Acceso seguro via email</p>
-          </div>
-
-          <div className="bg-white rounded-lg shadow-lg p-6 border-2 border-pink-200">
-            <div className="text-4xl mb-2">💰</div>
-            <h3 className="font-semibold text-lg mb-1">Wallet</h3>
-            <p className="text-sm text-gray-600">Sistema de monedas virtuales</p>
-          </div>
-
-          <div className="bg-white rounded-lg shadow-lg p-6 border-2 border-blue-200">
-            <div className="text-4xl mb-2">🛍️</div>
-            <h3 className="font-semibold text-lg mb-1">Shop</h3>
-            <p className="text-sm text-gray-600">Tickets, passes y VIP access</p>
-          </div>
-
-          <div className="bg-white rounded-lg shadow-lg p-6 border-2 border-green-200">
-            <div className="text-4xl mb-2">📱</div>
-            <h3 className="font-semibold text-lg mb-1">QR Codes</h3>
-            <p className="text-sm text-gray-600">Generación y validación</p>
+          
+          <div className="space-y-4">
+            <p className="font-['Montaga',serif] text-4xl md:text-5xl text-gray-800">
+              a la Tienda de la Fiesta
+            </p>
+            <p className="font-['Playfair_Display',serif] text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500">
+              Esteban & Dany
+            </p>
           </div>
         </div>
 
-        <div className="pt-8 space-y-2 text-sm text-gray-500">
-          <p>Desplegado en AWS EC2 t4g.nano</p>
-          <p>Costo: $0.10/día | GitHub Actions CI/CD</p>
+        {/* Mensaje de bienvenida */}
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl p-8 border-2 border-pink-200">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <span className="text-4xl">🛍️</span>
+            <span className="text-4xl">💝</span>
+            <span className="text-4xl">🎉</span>
+          </div>
+          <p className="text-2xl text-gray-700 font-['Noto_Serif',serif] leading-relaxed">
+            Pronto podrás disfrutar de nuestra tienda virtual
+          </p>
+          <p className="text-lg text-gray-600 mt-4">
+            Juegos, premios y diversión en nuestra boda
+          </p>
+        </div>
+
+        {/* Footer */}
+        <div className="pt-8 space-y-2 text-gray-500">
+          <p className="flex items-center justify-center gap-2">
+            <span>💻</span>
+            <span>Desplegado en AWS EC2</span>
+          </p>
+          <p className="flex items-center justify-center gap-2">
+            <span>🚀</span>
+            <span>CI/CD con GitHub Actions</span>
+          </p>
         </div>
       </div>
     </main>
