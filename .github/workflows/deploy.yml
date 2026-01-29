@@ -17,14 +17,31 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
-          # Verificar que el archivo no esté vacío
+          
+          # Debug: Verificar contenido
+          echo "🔍 Verificando clave SSH..."
           if [ ! -s ~/.ssh/id_rsa ]; then
-            echo "❌ ERROR: EC2_SSH_KEY secret no está configurado o está vacío"
-            echo "📝 Configúralo en: https://github.com/${{ github.repository }}/settings/secrets/actions"
+            echo "❌ ERROR: EC2_SSH_KEY secret está vacío"
             exit 1
           fi
+          
+          # Verificar que empieza con BEGIN
+          if ! head -n 1 ~/.ssh/id_rsa | grep -q "BEGIN"; then
+            echo "❌ ERROR: EC2_SSH_KEY no parece ser una clave SSH válida"
+            echo "Primera línea del archivo:"
+            head -n 1 ~/.ssh/id_rsa
+            exit 1
+          fi
+          
+          echo "✅ Clave SSH válida detectada"
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H 54.208.89.87 >> ~/.ssh/known_hosts
+          
+          echo "🔍 Agregando host a known_hosts..."
+          ssh-keyscan -H 54.208.89.87 >> ~/.ssh/known_hosts 2>&1 || {
+            echo "⚠️  ssh-keyscan falló, continuando de todas formas..."
+          }
+          
+          echo "✅ SSH configurado correctamente"
 
       - name: Deploy to EC2
         env:
