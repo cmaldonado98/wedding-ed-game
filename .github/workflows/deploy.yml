@@ -58,6 +58,25 @@ jobs:
 
       - name: Verify Deployment
         run: |
-          sleep 30
-          curl -f http://54.208.89.87 || exit 1
-          echo "✅ Deployment successful!"
+          echo "⏳ Esperando a que la app esté lista..."
+          sleep 60
+          
+          echo "🔍 Verificando health check..."
+          max_attempts=5
+          attempt=0
+          
+          while [ $attempt -lt $max_attempts ]; do
+            if curl -f http://54.208.89.87:3000 2>/dev/null; then
+              echo "✅ Deployment successful!"
+              exit 0
+            fi
+            
+            attempt=$((attempt + 1))
+            echo "⏳ Intento $attempt/$max_attempts fallido, esperando 15s..."
+            sleep 15
+          done
+          
+          echo "❌ Deployment falló después de $max_attempts intentos"
+          echo "📋 Logs del container:"
+          ssh -o StrictHostKeyChecking=no ubuntu@54.208.89.87 "docker logs wedding-game --tail 50"
+          exit 1
