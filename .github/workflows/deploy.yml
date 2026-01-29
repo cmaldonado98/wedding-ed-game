@@ -25,10 +25,6 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          PAYPHONE_TOKEN: ${{ secrets.PAYPHONE_TOKEN }}
-          PAYPHONE_STORE_ID: ${{ secrets.PAYPHONE_STORE_ID }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           ssh ubuntu@54.208.89.87 << 'EOF'
             cd /home/ubuntu/wedding-game
@@ -43,25 +39,6 @@ jobs:
           NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
           SUPABASE_SERVICE_ROLE_KEY=${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           SUPABASE_PROJECT_ID=cleeumrziseyvctsfxxx
-          
-          # JWT Secret
-          JWT_SECRET=${{ secrets.JWT_SECRET }}
-          
-          # Payphone Configuration
-          PAYPHONE_TOKEN=${{ secrets.PAYPHONE_TOKEN }}
-          PAYPHONE_STORE_ID=${{ secrets.PAYPHONE_STORE_ID }}
-          PAYPHONE_API_URL=https://pay.payphonetodoesposible.com
-          
-          # Google Gemini AI
-          GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
-          
-          # Bank Account Information
-          BANK_ACCOUNT_EC_NAME=Carlos Maldonado
-          BANK_ACCOUNT_EC_NUMBER=2206900758
-          BANK_ACCOUNT_EC_TYPE=Ahorros
-          BANK_ACCOUNT_EC_ID=1726037722
-          BANK_ACCOUNT_MX_NAME=Daniela Guadalupe Briones Chavez
-          BANK_ACCOUNT_MX_CARD=5579099012903318
           
           # App URL
           NEXT_PUBLIC_APP_URL=http://54.208.89.87
