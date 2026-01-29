@@ -18,8 +18,13 @@
 ### Security Group
 - **ID**: `sg-0db7137e55b7bb3d9`
 - **Name**: `wedding-game-sg`
-- **Ports**: 22 (SSH from 157.100.89.190), 80 (HTTP), 443 (HTTPS)
+- **Ports**: 
+  - 22 (SSH from 157.100.89.190/32 - Your IP)
+  - 22 (SSH from 0.0.0.0/0 - GitHub Actions)
+  - 80 (HTTP from anywhere)
+  - 443 (HTTPS from anywhere)
 - **Created**: 2026-01-29
+- **Updated**: 2026-01-29 (Added GitHub Actions SSH access)
 - **Cost**: $0 (Security Groups son gratis)
 
 ### EC2 Instance ✅
