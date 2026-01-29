@@ -66,7 +66,7 @@ jobs:
           attempt=0
           
           while [ $attempt -lt $max_attempts ]; do
-            if curl -f http://54.208.89.87:3000 2>/dev/null; then
+            if curl -f http://54.208.89.87 2>/dev/null; then
               echo "✅ Deployment successful!"
               exit 0
             fi
