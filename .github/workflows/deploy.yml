@@ -16,6 +16,11 @@ jobs:
       - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
+          if [ -z "${{ secrets.EC2_SSH_KEY }}" ]; then
+            echo "❌ ERROR: EC2_SSH_KEY secret no está configurado"
+            echo "📝 Configúralo en: https://github.com/${{ github.repository }}/settings/secrets/actions"
+            exit 1
+          fi
           echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H 54.208.89.87 >> ~/.ssh/known_hosts
