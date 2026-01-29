@@ -1,0 +1,58 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 54.208.89.87 >> ~/.ssh/known_hosts
+
+      - name: Deploy to EC2
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        run: |
+          ssh ubuntu@54.208.89.87 << 'EOF'
+            cd /home/ubuntu/wedding-game
+            
+            # Pull latest code
+            git pull origin main || git clone https://github.com/cmaldonado98/wedding-ed-game.git .
+            
+            # Create .env file
+            cat > .env << EOL
+          NEXT_PUBLIC_SUPABASE_URL=${{ secrets.SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY=${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          NEXT_PUBLIC_APP_URL=http://54.208.89.87
+          EOL
+            
+            # Build and restart
+            docker-compose down
+            docker-compose build --no-cache
+            docker-compose up -d
+            
+            # Cleanup
+            docker system prune -af
+          EOF
+
+      - name: Verify Deployment
+        run: |
+          sleep 30
+          curl -f http://54.208.89.87 || exit 1
+          echo "✅ Deployment successful!"
