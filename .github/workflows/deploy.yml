@@ -61,16 +61,15 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - naEC2_HOST: ${{ secrets.EC2_HOST }}
+      - name: Deploy to EC2
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           IMAGE_NAME: ghcr.io/${{ github.repository }}:latest
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST}VICE_ROLE_KEY }}
-          IMAGE_NAME: ghcr.io/${{ github.repository }}:latest
-        run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@54.208.89.87 bash << EOF
+          ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} bash << EOF
             cd /home/ubuntu/wedding-game
             
             # Pull latest code for docker-compose
@@ -85,7 +84,7 @@ jobs:
           SUPABASE_PROJECT_ID=cleeumrziseyvctsfxxx
           
           # App URL
-          NEXT_PUBLIC_APP_URL=http://54.208.89.87
+          NEXT_PUBLIC_APP_URL=http://${EC2_HOST}
           EOL
             
             # Stop current container
@@ -104,7 +103,8 @@ jobs:
             echo "✅ Deploy completado"
           EOF
 
-      - env:
+      - name: Verify deployment
+        env:
           EC2_HOST: ${{ secrets.EC2_HOST }}
         run: |
           echo "⏳ Esperando a que la app esté lista..."
@@ -127,6 +127,5 @@ jobs:
           
           echo "❌ Deployment falló después de $max_attempts intentos"
           echo "📋 Logs del container:"
-          ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST}
-          ssh -o StrictHostKeyChecking=no ubuntu@54.208.89.87 "docker logs wedding-game --tail 50"
+          ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} "docker logs wedding-game --tail 50"
           exit 1
