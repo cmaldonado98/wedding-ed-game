@@ -35,6 +35,17 @@ jobs:
             # Pull latest code
             git pull origin main || git clone https://github.com/cmaldonado98/wedding-ed-game.git .
             
+            # Setup swap if not exists (needed for low-memory instances)
+            if [ ! -f /swapfile ]; then
+              echo "🔧 Configurando swap memory (2GB)..."
+              sudo fallocate -l 2G /swapfile
+              sudo chmod 600 /swapfile
+              sudo mkswap /swapfile
+              sudo swapon /swapfile
+              echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+              echo "✅ Swap configurada"
+            fi
+            
             # Create .env file with all variables
             cat > .env << EOL
           # Supabase Configuration
@@ -48,12 +59,15 @@ jobs:
           EOL
             
             # Build and restart
+            echo "🔨 Building Docker image (puede tardar 3-5 min)..."
             docker-compose down
             docker-compose build --no-cache
             docker-compose up -d
             
             # Cleanup
             docker system prune -af
+            
+            echo "✅ Deploy completado"
           EOF
 
       - name: Verify Deployment
