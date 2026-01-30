@@ -1,8 +1,6 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/cmaldonado98/wedding-ed-game:latest
     container_name: wedding-game
     restart: unless-stopped
     ports:
