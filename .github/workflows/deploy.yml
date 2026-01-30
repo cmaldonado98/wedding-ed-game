@@ -53,22 +53,25 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_REPO: ${{ github.repository }}
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@54.208.89.87 << 'EOF'
+          ssh -o StrictHostKeyChecking=no ubuntu@54.208.89.87 bash << EOF
             cd /home/ubuntu/wedding-game
             
             # Pull latest code for docker-compose
             git pull origin main || git clone https://github.com/cmaldonado98/wedding-ed-game.git .
             
             # Login to GitHub Container Registry
-            echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            echo "${GITHUB_TOKEN}" | docker login ghcr.io -u "${GITHUB_ACTOR}" --password-stdin
             
             # Create .env file with all variables
             cat > .env << EOL
           # Supabase Configuration
-          NEXT_PUBLIC_SUPABASE_URL=${{ secrets.SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
-          SUPABASE_SERVICE_ROLE_KEY=${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          NEXT_PUBLIC_SUPABASE_URL=${SUPABASE_URL}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+          SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
           SUPABASE_PROJECT_ID=cleeumrziseyvctsfxxx
           
           # App URL
@@ -80,7 +83,7 @@ jobs:
             
             # Pull latest image
             echo "⬇️ Pulling latest image from registry..."
-            docker pull ghcr.io/${{ github.repository }}:latest
+            docker pull ghcr.io/${GITHUB_REPO}:latest
             
             # Start container with pulled image
             docker-compose up -d
