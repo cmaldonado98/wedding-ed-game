@@ -1,6 +1,6 @@
 services:
   app:
-    image: wedding-game:latest
+    image: ghcr.io/cmaldonado98/wedding-ed-game:latest
     container_name: wedding-game
     restart: unless-stopped
     ports:
