@@ -84,7 +84,7 @@ jobs:
           SUPABASE_PROJECT_ID=cleeumrziseyvctsfxxx
           
           # App URL
-          NEXT_PUBLIC_APP_URL=http://${EC2_HOST}
+          NEXT_PUBLIC_APP_URL=https://machiboda.clicktoforever.com
           EOL
             
             # Stop current container
@@ -110,13 +110,13 @@ jobs:
           echo "⏳ Esperando a que la app esté lista..."
           sleep 60
           
-          echo "🔍 Verificando health check..."
+          echo "🔍 Verificando health check en HTTPS..."
           max_attempts=5
           attempt=0
           
           while [ $attempt -lt $max_attempts ]; do
-            if curl -f http://${EC2_HOST} 2>/dev/null; then
-              echo "✅ Deployment successful!"
+            if curl -f https://machiboda.clicktoforever.com 2>/dev/null; then
+              echo "✅ Deployment successful on https://machiboda.clicktoforever.com"
               exit 0
             fi
             

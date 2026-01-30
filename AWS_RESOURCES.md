@@ -36,10 +36,21 @@
 - **Cost**: $0 (GRATIS mientras esté asociada a instancia running)
 - **Purpose**: IP fija que no cambia al detener/iniciar instancia
 
+### Custom Domain & SSL 🔒
+- **Domain**: `machiboda.clicktoforever.com`
+- **DNS Provider**: Namecheap
+- **SSL Certificate**: Let's Encrypt (Auto-renovación activada)
+- **Certificate Path**: `/etc/letsencrypt/live/machiboda.clicktoforever.com/`
+- **Expires**: 2026-04-30 (Auto-renew configurado)
+- **HTTPS**: ✅ Activo con HTTP/2
+- **HTTP Redirect**: ✅ HTTP → HTTPS automático
+- **Cost**: $0 (Let's Encrypt es gratis)
+
 ### EC2 Instance ✅
 - **Instance ID**: `i-083bcc1b409c1ecb6`
 - **Type**: `t4g.nano` (2 vCPUs ARM, 512MB RAM)
 - **State**: `running`
+- **Public URL**: `https://machiboda.clicktoforever.com` ⭐
 - **Public IP**: `54.145.70.231` (Elastic IP) ⭐
 - **Old IP**: `54.208.89.87` (ya no válida)
 - **Private IP**: `172.31.16.100`
