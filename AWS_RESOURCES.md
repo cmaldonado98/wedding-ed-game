@@ -27,11 +27,21 @@
 - **Updated**: 2026-01-29 (Added GitHub Actions SSH access)
 - **Cost**: $0 (Security Groups son gratis)
 
+### Elastic IP 🌐
+- **Allocation ID**: `eipalloc-021abd64b61826b05`
+- **Association ID**: `eipassoc-0e54f104a43fe046d`
+- **Public IP**: `54.145.70.231` ⭐ **NUEVA IP ESTÁTICA**
+- **Associated with**: `i-083bcc1b409c1ecb6` (wedding-game instance)
+- **Created**: 2026-01-30
+- **Cost**: $0 (GRATIS mientras esté asociada a instancia running)
+- **Purpose**: IP fija que no cambia al detener/iniciar instancia
+
 ### EC2 Instance ✅
 - **Instance ID**: `i-083bcc1b409c1ecb6`
 - **Type**: `t4g.nano` (2 vCPUs ARM, 512MB RAM)
 - **State**: `running`
-- **Public IP**: `54.208.89.87`
+- **Public IP**: `54.145.70.231` (Elastic IP) ⭐
+- **Old IP**: `54.208.89.87` (ya no válida)
 - **Private IP**: `172.31.16.100`
 - **AMI**: `ami-03dc355fadfbaaf26` (Ubuntu 22.04 ARM64)
 - **Region**: `us-east-1b`
