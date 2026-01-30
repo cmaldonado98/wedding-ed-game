@@ -46,8 +46,10 @@ jobs:
           known_hosts: 'placeholder'
           
       - name: Add EC2 to known hosts
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
         run: |
-          ssh-keyscan -H 54.208.89.87 >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${EC2_HOST} >> ~/.ssh/known_hosts
 
       - name: Make package public
         run: |
@@ -59,11 +61,13 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Deploy to EC2
-        env:
+      - naEC2_HOST: ${{ secrets.EC2_HOST }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          IMAGE_NAME: ghcr.io/${{ github.repository }}:latest
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST}VICE_ROLE_KEY }}
           IMAGE_NAME: ghcr.io/${{ github.repository }}:latest
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@54.208.89.87 bash << EOF
@@ -100,7 +104,8 @@ jobs:
             echo "✅ Deploy completado"
           EOF
 
-      - name: Verify Deployment
+      - env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
         run: |
           echo "⏳ Esperando a que la app esté lista..."
           sleep 60
@@ -110,7 +115,7 @@ jobs:
           attempt=0
           
           while [ $attempt -lt $max_attempts ]; do
-            if curl -f http://54.208.89.87 2>/dev/null; then
+            if curl -f http://${EC2_HOST} 2>/dev/null; then
               echo "✅ Deployment successful!"
               exit 0
             fi
@@ -122,5 +127,6 @@ jobs:
           
           echo "❌ Deployment falló después de $max_attempts intentos"
           echo "📋 Logs del container:"
+          ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST}
           ssh -o StrictHostKeyChecking=no ubuntu@54.208.89.87 "docker logs wedding-game --tail 50"
           exit 1
